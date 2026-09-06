@@ -1,0 +1,151 @@
+@import 'tailwindcss';
+
+/* Class-based dark mode (toggled on <html> by the theme switch). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Light: warm off-white canvas, near-white panels, hairline borders.
+   Dark:  near-black canvas, slightly lifted panels, low-contrast borders.
+--------------------------------------------------------------------------- */
+:root {
+	--canvas: #fafafa;
+	--rail: #f4f4f3;
+	--panel: #f6f6f5;
+	--panel-hover: #eeeeed;
+	--raised: #ffffff;
+	--line: #e6e5e3;
+	--line-strong: #d8d7d4;
+	--ink: #171717;
+	--ink-soft: #3f3f46;
+	--ink-muted: #71717a;
+	--ink-faint: #a1a1aa;
+	--active: #e8e8e6;
+	--brand: #4f7d5c;
+
+	--status-done: #16a34a;
+	--status-active: #2563eb;
+	--status-planned: #71717a;
+	--status-blocked: #d97706;
+	--status-done-bg: #16a34a1a;
+	--status-active-bg: #2563eb1a;
+	--status-planned-bg: #71717a1a;
+	--status-blocked-bg: #d977061a;
+}
+
+.dark {
+	--canvas: #131313;
+	--rail: #0d0d0d;
+	--panel: #1a1a1a;
+	--panel-hover: #202020;
+	--raised: #171717;
+	--line: #262626;
+	--line-strong: #333333;
+	--ink: #ededed;
+	--ink-soft: #d4d4d4;
+	--ink-muted: #a1a1aa;
+	--ink-faint: #71717a;
+	--active: #262626;
+	--brand: #86b894;
+
+	--status-done: #4ade80;
+	--status-active: #60a5fa;
+	--status-planned: #a1a1aa;
+	--status-blocked: #fbbf24;
+	--status-done-bg: #4ade8021;
+	--status-active-bg: #60a5fa21;
+	--status-planned-bg: #a1a1aa21;
+	--status-blocked-bg: #fbbf2421;
+}
+
+@theme inline {
+	--font-sans:
+		'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+		sans-serif;
+	--font-mono:
+		ui-monospace, 'SFMono-Regular', 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+	--color-canvas: var(--canvas);
+	--color-rail: var(--rail);
+	--color-panel: var(--panel);
+	--color-panel-hover: var(--panel-hover);
+	--color-raised: var(--raised);
+	--color-line: var(--line);
+	--color-line-strong: var(--line-strong);
+	--color-ink: var(--ink);
+	--color-ink-soft: var(--ink-soft);
+	--color-ink-muted: var(--ink-muted);
+	--color-ink-faint: var(--ink-faint);
+	--color-active: var(--active);
+	--color-brand: var(--brand);
+
+	--color-done: var(--status-done);
+	--color-active-status: var(--status-active);
+	--color-planned: var(--status-planned);
+	--color-blocked: var(--status-blocked);
+}
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+		scroll-padding-top: 5rem;
+		-webkit-text-size-adjust: 100%;
+	}
+
+	body {
+		background-color: var(--canvas);
+		color: var(--ink);
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+	}
+
+	::selection {
+		background: color-mix(in srgb, var(--brand) 30%, transparent);
+	}
+
+	:focus-visible {
+		outline: 2px solid color-mix(in srgb, var(--brand) 70%, transparent);
+		outline-offset: 2px;
+		border-radius: 4px;
+	}
+}
+
+@layer utilities {
+	.scrollbar-thin {
+		scrollbar-width: thin;
+		scrollbar-color: var(--line-strong) transparent;
+	}
+
+	.scrollbar-thin::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+
+	.scrollbar-thin::-webkit-scrollbar-thumb {
+		background-color: var(--line-strong);
+		border-radius: 999px;
+	}
+
+	.scrollbar-thin::-webkit-scrollbar-track {
+		background: transparent;
+	}
+}
+
+/* Status theming, driven by a data attribute so JSON values map straight to CSS. */
+[data-status='done'] {
+	--status-fg: var(--status-done);
+	--status-bg: var(--status-done-bg);
+}
+[data-status='in-progress'] {
+	--status-fg: var(--status-active);
+	--status-bg: var(--status-active-bg);
+}
+[data-status='planned'] {
+	--status-fg: var(--status-planned);
+	--status-bg: var(--status-planned-bg);
+}
+[data-status='blocked'] {
+	--status-fg: var(--status-blocked);
+	--status-bg: var(--status-blocked-bg);
+}

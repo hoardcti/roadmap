@@ -1,0 +1,57 @@
+name: Deploy roadmap to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Lets automation that updates src/lib/data/roadmap.json trigger a rebuild.
+  workflow_dispatch:
+  repository_dispatch:
+    types: [roadmap-updated]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Validate roadmap.json
+        run: npm run validate
+
+      - name: Build
+        env:
+          # Project sites live at /<repo>. Delete this line for a user/org page
+          # (<user>.github.io) or when serving from a custom domain at the root.
+          BASE_PATH: /${{ github.event.repository.name }}
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
