@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
-    "build": "vite build",
+    "dev": "node scripts/fetch-roadmap.mjs --if-missing && vite dev",
+    "build": "node scripts/fetch-roadmap.mjs --if-missing && vite build",
+    "fetch-roadmap": "node scripts/fetch-roadmap.mjs",
     "validate": "node scripts/validate-roadmap.mjs",
     "preview": "vite preview",
     "sync": "svelte-kit sync",

@@ -3,7 +3,10 @@ name: Deploy roadmap to GitHub Pages
 on:
   push:
     branches: [main]
-  # Lets automation that updates src/lib/data/roadmap.json trigger a rebuild.
+  # Progress lives in GitHub milestones, issues and the org project, none of
+  # which can trigger this workflow directly, so rebuild on a schedule too.
+  schedule:
+    - cron: '17 * * * *'
   workflow_dispatch:
   repository_dispatch:
     types: [roadmap-updated]
@@ -29,6 +32,14 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      - name: Fetch roadmap from GitHub
+        env:
+          # GITHUB_TOKEN can read public milestones and issues but not org
+          # projects; a ROADMAP_TOKEN secret with project read access adds statuses.
+          ROADMAP_TOKEN: ${{ secrets.ROADMAP_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: npm run fetch-roadmap
 
       - name: Validate roadmap.json
         run: npm run validate

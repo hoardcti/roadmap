@@ -1,24 +1,57 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "https://hoardcti.dev/roadmap.schema.json",
-	"title": "Hoard CTI roadmap",
-	"description": "Single source of truth for the roadmap site. Safe to write from automation.",
+	"title": "Hoard CTI roadmap config",
+	"description": "Which roadmaps exist and which GitHub repo backs each one. Milestones, issues and statuses are fetched from GitHub by scripts/fetch-roadmap.mjs.",
 	"type": "object",
-	"required": ["meta", "roadmaps"],
+	"required": [
+		"meta",
+		"roadmaps"
+	],
 	"properties": {
-		"$schema": { "type": "string" },
+		"$schema": {
+			"type": "string"
+		},
 		"meta": {
 			"type": "object",
-			"required": ["name"],
+			"required": [
+				"name"
+			],
 			"properties": {
-				"name": { "type": "string" },
-				"tagline": { "type": "string" },
-				"description": { "type": "string" },
-				"github": { "type": "string", "format": "uri" },
-				"updatedAt": {
+				"name": {
+					"type": "string"
+				},
+				"tagline": {
+					"type": "string"
+				},
+				"description": {
+					"type": "string"
+				},
+				"github": {
 					"type": "string",
-					"description": "ISO date (YYYY-MM-DD) of the last update.",
-					"pattern": "^\\d{4}-\\d{2}-\\d{2}"
+					"format": "uri"
+				},
+				"project": {
+					"type": "object",
+					"description": "Org-level GitHub Project (v2) whose single-select field supplies issue statuses. Needs ROADMAP_TOKEN with project read access.",
+					"required": [
+						"org",
+						"number"
+					],
+					"properties": {
+						"org": {
+							"type": "string"
+						},
+						"number": {
+							"type": "integer",
+							"minimum": 1
+						},
+						"statusField": {
+							"type": "string",
+							"default": "Status"
+						}
+					},
+					"additionalProperties": false
 				}
 			},
 			"additionalProperties": true
@@ -26,26 +59,40 @@
 		"roadmaps": {
 			"type": "array",
 			"minItems": 1,
-			"items": { "$ref": "#/$defs/roadmap" }
+			"items": {
+				"$ref": "#/$defs/roadmap"
+			}
 		}
 	},
 	"additionalProperties": false,
 	"$defs": {
 		"status": {
-			"enum": ["done", "in-progress", "planned", "blocked"],
+			"enum": [
+				"done",
+				"in-progress",
+				"planned",
+				"blocked"
+			],
 			"description": "Unknown values fall back to 'planned' at render time."
 		},
 		"roadmap": {
 			"type": "object",
-			"required": ["id", "title"],
+			"required": [
+				"id",
+				"title"
+			],
 			"properties": {
 				"id": {
 					"type": "string",
 					"pattern": "^[a-z0-9-]+$",
 					"description": "URL slug. The roadmap with id 'main' (or main: true) is the front page."
 				},
-				"title": { "type": "string" },
-				"summary": { "type": "string" },
+				"title": {
+					"type": "string"
+				},
+				"summary": {
+					"type": "string"
+				},
 				"icon": {
 					"type": "string",
 					"description": "Icon key, see src/lib/components/Icon.svelte for the available set."
@@ -54,72 +101,67 @@
 					"type": "string",
 					"description": "Sidebar section heading, e.g. 'Architecture'."
 				},
-				"main": { "type": "boolean" },
-				"status": { "$ref": "#/$defs/status" },
+				"main": {
+					"type": "boolean"
+				},
+				"status": {
+					"enum": [
+						"done",
+						"in-progress",
+						"planned",
+						"blocked"
+					],
+					"description": "Optional override; normally derived from the GitHub issues."
+				},
 				"repo": {
 					"type": "object",
-					"required": ["name", "url"],
+					"required": [
+						"name",
+						"url"
+					],
 					"properties": {
-						"name": { "type": "string" },
-						"url": { "type": "string", "format": "uri" }
+						"name": {
+							"type": "string"
+						},
+						"url": {
+							"type": "string",
+							"format": "uri"
+						}
 					},
-					"additionalProperties": false
+					"additionalProperties": false,
+					"description": "GitHub repository whose milestones and issues make up this roadmap."
 				},
 				"intro": {
 					"type": "object",
 					"properties": {
-						"heading": { "type": "string" },
-						"body": { "type": "string" },
+						"heading": {
+							"type": "string"
+						},
+						"body": {
+							"type": "string"
+						},
 						"callout": {
 							"type": "object",
-							"required": ["body"],
+							"required": [
+								"body"
+							],
 							"properties": {
-								"type": { "enum": ["info", "warning", "success"] },
-								"title": { "type": "string" },
-								"body": { "type": "string" }
+								"type": {
+									"enum": [
+										"info",
+										"warning",
+										"success"
+									]
+								},
+								"title": {
+									"type": "string"
+								},
+								"body": {
+									"type": "string"
+								}
 							},
 							"additionalProperties": false
 						}
-					},
-					"additionalProperties": false
-				},
-				"milestones": {
-					"type": "array",
-					"items": { "$ref": "#/$defs/milestone" }
-				}
-			},
-			"additionalProperties": false
-		},
-		"milestone": {
-			"type": "object",
-			"required": ["id", "title"],
-			"properties": {
-				"id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
-				"title": { "type": "string" },
-				"description": { "type": "string" },
-				"status": { "$ref": "#/$defs/status" },
-				"target": { "type": "string", "description": "Free text, e.g. 'Q3 2026'." },
-				"items": { "type": "array", "items": { "$ref": "#/$defs/item" } }
-			},
-			"additionalProperties": false
-		},
-		"item": {
-			"type": "object",
-			"required": ["id", "title"],
-			"properties": {
-				"id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
-				"title": { "type": "string" },
-				"description": { "type": "string" },
-				"status": { "$ref": "#/$defs/status" },
-				"tags": { "type": "array", "items": { "type": "string" } },
-				"note": { "type": "string" },
-				"link": {
-					"type": "object",
-					"required": ["label"],
-					"properties": {
-						"label": { "type": "string" },
-						"url": { "type": "string", "format": "uri" },
-						"roadmap": { "type": "string", "description": "Id of another roadmap." }
 					},
 					"additionalProperties": false
 				}

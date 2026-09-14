@@ -28,9 +28,9 @@
 			onclick={onNavigate}
 		>
 			<span
-				class="flex size-7 items-center justify-center rounded-md border border-line bg-raised text-brand"
+				class="flex size-7 items-center justify-center"
 			>
-				<Logo size={15} />
+				<Logo size={19} />
 			</span>
 			{meta.name}
 		</a>

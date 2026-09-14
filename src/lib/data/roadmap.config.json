@@ -1,0 +1,91 @@
+{
+	"$schema": "./roadmap.schema.json",
+	"meta": {
+		"name": "Hoard CTI",
+		"tagline": "Roadmap",
+		"description": "The public roadmap for Hoard CTI, an open-source cyber threat intelligence feed.",
+		"github": "https://github.com/hoardcti",
+		"project": {
+			"org": "hoardcti",
+			"number": 1,
+			"statusField": "Status"
+		}
+	},
+	"roadmaps": [
+		{
+			"id": "main",
+			"title": "Roadmap",
+			"summary": "Where Hoard CTI is going: the programme-level view across every repository and feed.",
+			"icon": "rocket",
+			"main": true,
+			"repo": {
+				"name": "hoardcti/roadmap",
+				"url": "https://github.com/hoardcti/roadmap"
+			},
+			"intro": {
+				"heading": "Overview",
+				"body": "Hoard CTI is built as a set of small, independent repositories that each own one slice of the pipeline. This page tracks the programme milestones; each splintered roadmap below tracks the delivery detail for its own repository.",
+				"callout": {
+					"type": "info",
+					"title": "Automatically generated",
+					"body": "Milestones and progress on this site come straight from GitHub milestones, issues and the Hoard CTI project board, and refresh every hour."
+				}
+			}
+		},
+		{
+			"id": "storage",
+			"title": "Storage",
+			"summary": "Durable, cheap, queryable storage for indicators and their provenance.",
+			"icon": "database",
+			"group": "Architecture",
+			"repo": {
+				"name": "hoardcti/storage",
+				"url": "https://github.com/hoardcti/storage"
+			}
+		},
+		{
+			"id": "ingest",
+			"title": "Ingest",
+			"summary": "Normalising, deduplicating and validating everything that arrives from collectors.",
+			"icon": "inbox",
+			"group": "Architecture",
+			"repo": {
+				"name": "hoardcti/ingest",
+				"url": "https://github.com/hoardcti/ingest"
+			}
+		},
+		{
+			"id": "scrapers",
+			"title": "Scrapers & Collectors",
+			"summary": "The fleet of small, independent collectors that feed the pipeline.",
+			"icon": "git-branch",
+			"group": "Architecture",
+			"repo": {
+				"name": "hoardcti/collectors",
+				"url": "https://github.com/hoardcti/collectors"
+			}
+		},
+		{
+			"id": "automation",
+			"title": "Automation",
+			"summary": "Serverless schedules, policies and the lightweight AI workflows that run unattended.",
+			"icon": "cpu",
+			"group": "Platform",
+			"repo": {
+				"name": "hoardcti/automation",
+				"url": "https://github.com/hoardcti/automation"
+			}
+		},
+		{
+			"id": "api",
+			"title": "API & Feeds",
+			"summary": "How consumers actually get the data: files, API endpoints and platform connectors.",
+			"icon": "zap",
+			"group": "Platform",
+			"repo": {
+				"name": "hoardcti/api",
+				"url": "https://github.com/hoardcti/api"
+			}
+		}
+	]
+}
