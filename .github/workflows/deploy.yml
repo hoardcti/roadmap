@@ -34,10 +34,8 @@ jobs:
         run: npm run validate
 
       - name: Build
-        env:
-          # Project sites live at /<repo>. Delete this line for a user/org page
-          # (<user>.github.io) or when serving from a custom domain at the root.
-          BASE_PATH: /${{ github.event.repository.name }}
+        # Served from a custom domain (roadmap.hoardcti.com) at the root, so
+        # BASE_PATH is left unset.
         run: npm run build
 
       - uses: actions/configure-pages@v5
