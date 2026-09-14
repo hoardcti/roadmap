@@ -6,3 +6,6 @@ build/
 !.env.example
 .DS_Store
 *.log
+
+# Generated from GitHub by scripts/fetch-roadmap.mjs
+src/lib/data/roadmap.json
