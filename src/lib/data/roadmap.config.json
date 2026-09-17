@@ -36,8 +36,8 @@
 			"id": "file-reputation",
 			"title": "File Reputation",
 			"summary": "Aggregates file hash reputation data from open threat intelligence sources into normalised Hoard CTI records.",
-			"icon": "database",
-			"group": "Moduke",
+			"icon": "hash",
+			"group": "Module",
 			"repo": {
 				"name": "hoardcti/file-reputation",
 				"url": "https://github.com/hoardcti/file-reputation"
