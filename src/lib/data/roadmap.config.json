@@ -33,58 +33,14 @@
 			}
 		},
 		{
-			"id": "storage",
-			"title": "Storage",
-			"summary": "Durable, cheap, queryable storage for indicators and their provenance.",
+			"id": "file-reputation",
+			"title": "File Reputation",
+			"summary": "Aggregates file hash reputation data from open threat intelligence sources into normalised Hoard CTI records.",
 			"icon": "database",
-			"group": "Architecture",
+			"group": "Moduke",
 			"repo": {
-				"name": "hoardcti/storage",
-				"url": "https://github.com/hoardcti/storage"
-			}
-		},
-		{
-			"id": "ingest",
-			"title": "Ingest",
-			"summary": "Normalising, deduplicating and validating everything that arrives from collectors.",
-			"icon": "inbox",
-			"group": "Architecture",
-			"repo": {
-				"name": "hoardcti/ingest",
-				"url": "https://github.com/hoardcti/ingest"
-			}
-		},
-		{
-			"id": "scrapers",
-			"title": "Scrapers & Collectors",
-			"summary": "The fleet of small, independent collectors that feed the pipeline.",
-			"icon": "git-branch",
-			"group": "Architecture",
-			"repo": {
-				"name": "hoardcti/collectors",
-				"url": "https://github.com/hoardcti/collectors"
-			}
-		},
-		{
-			"id": "automation",
-			"title": "Automation",
-			"summary": "Serverless schedules, policies and the lightweight AI workflows that run unattended.",
-			"icon": "cpu",
-			"group": "Platform",
-			"repo": {
-				"name": "hoardcti/automation",
-				"url": "https://github.com/hoardcti/automation"
-			}
-		},
-		{
-			"id": "api",
-			"title": "API & Feeds",
-			"summary": "How consumers actually get the data: files, API endpoints and platform connectors.",
-			"icon": "zap",
-			"group": "Platform",
-			"repo": {
-				"name": "hoardcti/api",
-				"url": "https://github.com/hoardcti/api"
+				"name": "hoardcti/file-reputation",
+				"url": "https://github.com/hoardcti/file-reputation"
 			}
 		}
 	]
